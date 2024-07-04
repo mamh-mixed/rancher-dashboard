@@ -197,15 +197,25 @@ async function render(to, from, next) {
 
   // If no Components matched, generate 404
   if (!Components.length) {
+    console.log('Components.lenght zero', Components); // eslint-disable-line no-console
     // Handle the loading of dynamic plugins (Harvester) because we only want to attempt to load those plugins and routes if we first couldn't find a page.
     // We should probably get rid of this concept entirely and just load plugins at the start.
     await app.context.store.dispatch('loadManagement');
+
+    console.log('loadManagement exit'); // eslint-disable-line no-console
+
     const newLocation = await dynamicPluginLoader.check({ route: { path: window.location.pathname }, store: app.context.store });
+
+    console.log('newLocation', newLocation); // eslint-disable-line no-console
 
     // If we have a new location, double check that it's actually valid
     const resolvedRoute = newLocation ? app.context.store.app.router.resolve(newLocation) : null;
 
+    console.log('resolvedRoute', resolvedRoute); // eslint-disable-line no-console
+
     if (resolvedRoute?.route.matched.length) {
+      console.log('newLocation', newLocation); // eslint-disable-line no-console
+
       // Note - don't use `redirect` or `store.app.route` (breaks feature by failing to run middleware in default layout)
       return next(newLocation);
     }
