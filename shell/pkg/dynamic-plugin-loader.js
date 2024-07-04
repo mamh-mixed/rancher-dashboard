@@ -12,6 +12,8 @@ class DynamicPluginLoader {
   }
 
   async check({ route, store }) {
+    console.log('check - dynamicPluginLoaders', this.dynamicPluginLoaders); // eslint-disable-line no-console
+
     for (const dpl of this.dynamicPluginLoaders) {
       // Check that the route is valid and then load the plugin associated with it
       const res = await dpl.load({ route, store });

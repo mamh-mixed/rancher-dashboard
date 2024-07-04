@@ -204,6 +204,8 @@ async function render(to, from, next) {
 
     console.log('loadManagement exit'); // eslint-disable-line no-console
 
+    console.log('path', window.location.pathname, app.context.store); // eslint-disable-line no-console
+
     const newLocation = await dynamicPluginLoader.check({ route: { path: window.location.pathname }, store: app.context.store });
 
     console.log('newLocation', newLocation); // eslint-disable-line no-console
