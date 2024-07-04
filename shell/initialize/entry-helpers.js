@@ -211,7 +211,7 @@ async function render(to, from, next) {
     console.log('newLocation', newLocation); // eslint-disable-line no-console
 
     // If we have a new location, double check that it's actually valid
-    const resolvedRoute = newLocation ? app.context.store.app.router.resolve({ path: newLocation.path.replace('/dashboard', '') }, window.$globalApp.$route) : null;
+    const resolvedRoute = newLocation?.path ? app.context.store.app.router.resolve({ path: newLocation.path.replace(/^\/{0,1}dashboard/, '') }, window.$globalApp.$route) : null;
 
     console.log('resolvedRoute', resolvedRoute); // eslint-disable-line no-console
 

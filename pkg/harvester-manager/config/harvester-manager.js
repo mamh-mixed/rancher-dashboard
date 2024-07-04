@@ -15,17 +15,12 @@ dynamicPluginLoader.register({
     // - directly (page refresh/load -> have path but no name)
     // - via router name (have name but no path)
     let clusterId;
-    const pathParts = route.path.split('/').filter((f) => !!f);
+    const pathParts = route.path?.replace(/^\/{0,1}dashboard/, '').split('/').filter((f) => !!f) || [];
 
-    console.log('load - pathParts', pathParts); // eslint-disable-line no-console
-    console.log('load - route', route); // eslint-disable-line no-console
-
-    if (pathParts?.[1] === HARVESTER_NAME && pathParts?.[3] ) {
-      clusterId = pathParts?.[3];
+    if (pathParts[0] === HARVESTER_NAME && pathParts[2] ) {
+      clusterId = pathParts?.[2];
     } else {
       const nameParts = route.name?.split('-');
-
-      console.log('load - nameParts', nameParts); // eslint-disable-line no-console
 
       if (nameParts?.[0] === HARVESTER_NAME) {
         clusterId = route.params?.cluster;
