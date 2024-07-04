@@ -17,10 +17,15 @@ dynamicPluginLoader.register({
     let clusterId;
     const pathParts = route.path.split('/').filter((f) => !!f);
 
+    console.log('load - pathParts', pathParts); // eslint-disable-line no-console
+    console.log('load - route', route); // eslint-disable-line no-console
+
     if (pathParts?.[1] === HARVESTER_NAME && pathParts?.[3] ) {
       clusterId = pathParts?.[3];
     } else {
       const nameParts = route.name?.split('-');
+
+      console.log('load - nameParts', nameParts); // eslint-disable-line no-console
 
       if (nameParts?.[0] === HARVESTER_NAME) {
         clusterId = route.params?.cluster;
@@ -32,6 +37,9 @@ dynamicPluginLoader.register({
       const provClusters = await store.dispatch('management/findAll', { type: CAPI.RANCHER_CLUSTER });
       const provCluster = provClusters.find((p) => p.mgmt.id === clusterId);
 
+      console.log('load - provCluster', provCluster); // eslint-disable-line no-console
+      console.log('load - harvesterClustersLocation', harvesterClustersLocation); // eslint-disable-line no-console
+
       if (provCluster) {
         const harvCluster = await store.dispatch('management/create', {
           ...provCluster,
@@ -41,6 +49,8 @@ dynamicPluginLoader.register({
         if (harvCluster) {
           try {
             await harvCluster.loadClusterPlugin();
+
+            console.log('load - return route'); // eslint-disable-line no-console
 
             return route;
           } catch (err) {
