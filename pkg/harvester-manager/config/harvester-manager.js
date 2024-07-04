@@ -15,7 +15,7 @@ dynamicPluginLoader.register({
     // - directly (page refresh/load -> have path but no name)
     // - via router name (have name but no path)
     let clusterId;
-    const pathParts = route.path.split('/');
+    const pathParts = route.path.split('/').filter((f) => !!f);
 
     if (pathParts?.[1] === HARVESTER_NAME && pathParts?.[3] ) {
       clusterId = pathParts?.[3];
