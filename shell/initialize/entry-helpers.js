@@ -211,7 +211,7 @@ async function render(to, from, next) {
     console.log('newLocation', newLocation); // eslint-disable-line no-console
 
     // If we have a new location, double check that it's actually valid
-    const resolvedRoute = newLocation ? app.context.store.app.router.resolve(newLocation) : null;
+    const resolvedRoute = newLocation ? app.context.store.app.router.resolve({ path: newLocation.path.replace('/dashboard', '') }, window.$globalApp.$route) : null;
 
     console.log('resolvedRoute', resolvedRoute); // eslint-disable-line no-console
 
@@ -219,7 +219,7 @@ async function render(to, from, next) {
       console.log('newLocation', newLocation); // eslint-disable-line no-console
 
       // Note - don't use `redirect` or `store.app.route` (breaks feature by failing to run middleware in default layout)
-      return next(newLocation);
+      return next(resolvedRoute.resolved.path);
     }
 
     errorRedirect(this, new Error('404: This page could not be found'));
