@@ -1,0 +1,23 @@
+name: Close Stale `kind/enhancement` issues
+
+on:
+  schedule:
+    - cron: '0 */4 * * *' #Every 4 hours until we go through all the issues (The action is rate limited). After we go through all the issues we should probably run this once a day or maybe week.
+
+permissions:
+  issues: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          debug-only: true
+          exempt-issue-labels: 'JIRA' #We don't want to close jira issues as these came from customers
+          stale-issue-label: 'kind/enhancement'
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+          days-before-issue-stale: 365
+          days-before-issue-close: 0
+          close-issue-message: "It's been more than a year since this enhancement request has seen any activity, we're closing this issue due to a lack of interest. If you think this enhancement is still necessary please comment and re-open for visibility."
